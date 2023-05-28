@@ -1,7 +1,9 @@
 package br.com.valhalla.ohwaiterapi.controller;
 
 import br.com.valhalla.ohwaiterapi.dto.CategoriaDTO;
+import br.com.valhalla.ohwaiterapi.exception.JaExisteException;
 import br.com.valhalla.ohwaiterapi.service.CategoriaService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/categorias")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CategoriaController {
 
     private final CategoriaService categoriaService;
@@ -19,10 +22,29 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoriaDTO> salvarOuAlterarCategoria(@RequestBody CategoriaDTO categoriaDTO) {
-        CategoriaDTO categoriaSalva = categoriaService.salvarOuAlterar(categoriaDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(categoriaSalva);
+    public ResponseEntity<?> salvarCategoria(@Valid @RequestBody CategoriaDTO categoriaDTO) {
+        try {
+            CategoriaDTO categoriaSalva = categoriaService.salvarOuAlterar(categoriaDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(categoriaSalva);
+        } catch (JaExisteException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage()); // ou uma mensagem de erro personalizada
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro desconhecido"); // ou uma mensagem de erro personalizada
+        }
     }
+
+    @PutMapping
+    public ResponseEntity<?> alterarCategoria(@RequestBody CategoriaDTO categoriaDTO){
+        try {
+            CategoriaDTO categoriaEditada = categoriaService.salvarOuAlterar(categoriaDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(categoriaEditada);
+        } catch (JaExisteException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage()); // ou uma mensagem de erro personalizada
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro desconhecido"); // ou uma mensagem de erro personalizada
+        }
+    }
+
 
     @GetMapping
     public ResponseEntity<List<CategoriaDTO>> buscarTodasCategorias() {

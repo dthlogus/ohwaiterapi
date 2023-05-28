@@ -2,6 +2,7 @@ package br.com.valhalla.ohwaiterapi.dto;
 
 import br.com.valhalla.ohwaiterapi.entity.Cardapio;
 import br.com.valhalla.ohwaiterapi.entity.Categoria;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +18,7 @@ import java.util.List;
 public class CategoriaDTO {
 
     private Long id;
+    @NotBlank(message = "Campo 'nome' é obrigatório")
     private String nome;
 
     public static CategoriaDTO toDto(Categoria categoria) {
