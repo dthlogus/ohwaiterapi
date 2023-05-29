@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/categorias")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8100/"})
 public class CategoriaController {
 
     private final CategoriaService categoriaService;

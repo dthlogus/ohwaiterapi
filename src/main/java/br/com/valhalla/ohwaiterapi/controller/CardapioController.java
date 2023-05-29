@@ -1,10 +1,9 @@
 package br.com.valhalla.ohwaiterapi.controller;
 
 import br.com.valhalla.ohwaiterapi.dto.CardapioDTO;
-import br.com.valhalla.ohwaiterapi.dto.CategoriaDTO;
+import br.com.valhalla.ohwaiterapi.entity.Categoria;
 import br.com.valhalla.ohwaiterapi.exception.JaExisteException;
 import br.com.valhalla.ohwaiterapi.service.CardapioService;
-import br.com.valhalla.ohwaiterapi.service.CategoriaService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cardapios")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8100/"})
 public class CardapioController {
 
     private final CardapioService cardapioService;
@@ -70,6 +69,14 @@ public class CardapioController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/por-categoria/{categoriaId}")
+    public ResponseEntity<List<CardapioDTO>> buscarPorCategoria(@PathVariable Long categoriaId) {
+        Categoria categoria = new Categoria();
+        categoria.setId(categoriaId);
+        List<CardapioDTO> cardapios = cardapioService.buscarPorCategoria(categoria);
+        return ResponseEntity.ok(cardapios);
     }
 
     @DeleteMapping("/{id}")

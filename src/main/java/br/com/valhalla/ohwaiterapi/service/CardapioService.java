@@ -2,7 +2,9 @@ package br.com.valhalla.ohwaiterapi.service;
 
 import br.com.valhalla.ohwaiterapi.dto.CardapioDTO;
 import br.com.valhalla.ohwaiterapi.entity.Cardapio;
+import br.com.valhalla.ohwaiterapi.entity.Categoria;
 import br.com.valhalla.ohwaiterapi.repository.CardapioRepository;
+import br.com.valhalla.ohwaiterapi.repository.CategoriaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +28,13 @@ public class CardapioService {
 
     public List<CardapioDTO> buscarTodos() {
         List<Cardapio> cardapios = cardapioRepository.findAll();
+        return cardapios.stream()
+                .map(CardapioDTO::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<CardapioDTO> buscarPorCategoria(Categoria categoria) {
+        List<Cardapio> cardapios = cardapioRepository.findByCategoria(categoria);
         return cardapios.stream()
                 .map(CardapioDTO::toDto)
                 .collect(Collectors.toList());
