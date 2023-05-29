@@ -1,8 +1,7 @@
 package br.com.valhalla.ohwaiterapi.dto;
 
-import br.com.valhalla.ohwaiterapi.entity.Cardapio;
 import br.com.valhalla.ohwaiterapi.entity.Categoria;
-import jakarta.validation.constraints.NotBlank;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,8 +16,9 @@ import java.util.List;
 @AllArgsConstructor
 public class CategoriaDTO {
 
-    private Long id;
-    @NotBlank(message = "Campo 'nome' é obrigatório")
+    @JsonProperty("id")
+    private long id;
+    @JsonProperty("nome")
     private String nome;
 
     public static CategoriaDTO toDto(Categoria categoria) {
@@ -37,9 +37,7 @@ public class CategoriaDTO {
 
     public static List<CategoriaDTO> toListDto(List<Categoria> categorias){
         List<CategoriaDTO> dtos = new ArrayList<>();
-        categorias.forEach(categoria -> {
-            dtos.add(toDto(categoria));
-        });
+        categorias.forEach(categoria -> dtos.add(toDto(categoria)));
         return dtos;
     }
 }
