@@ -48,8 +48,10 @@ public class ReservaService {
         return reserva;
     }
 
-    public Reserva obterReservaPorCodigo(String codigo) {
-        return reservaRepository.findByCodigo(codigo);
+    public ReservaDTO obterReservaPorCodigo(String codigo) {
+        Reserva reserva = reservaRepository.findByCodigo(codigo);
+        List<ReservaCardapio> cardapios = reservaCardapioRepository.findByReserva(reserva);
+        return ReservaDTO.toDTO(reserva, cardapios);
     }
 
     public void cancelarReserva(Long id) {

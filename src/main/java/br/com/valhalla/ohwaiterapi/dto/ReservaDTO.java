@@ -1,5 +1,6 @@
 package br.com.valhalla.ohwaiterapi.dto;
 
+import br.com.valhalla.ohwaiterapi.entity.Reserva;
 import br.com.valhalla.ohwaiterapi.entity.ReservaCardapio;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,4 +24,18 @@ public class ReservaDTO {
     private String nomeCliente;
     private String cpf;
     private String dataReserva;
+
+    public static ReservaDTO toDTO(Reserva reserva, List<ReservaCardapio> reservasCardapiosList){
+        return ReservaDTO.builder()
+                .id(reserva.getId())
+                .codigo(reserva.getCodigo())
+                .status(reserva.getStatus())
+                .reservaCardapios(reservasCardapiosList)
+                .tempoTotalPreparo(reserva.getTempoTotalPreparo())
+                .precoTotal(reserva.getPrecoTotal())
+                .nomeCliente(reserva.getNomeCliente())
+                .cpf(reserva.getCpf())
+                .dataReserva(reserva.getDataReserva())
+                .build();
+    }
 }

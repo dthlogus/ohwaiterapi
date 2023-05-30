@@ -29,8 +29,8 @@ public class ReservaController {
     }
 
     @GetMapping("/{codigo}")
-    public ResponseEntity<Reserva> obterReservaPorCodigo(@PathVariable String codigo) {
-        Reserva reserva = reservaService.obterReservaPorCodigo(codigo);
+    public ResponseEntity<ReservaDTO> obterReservaPorCodigo(@PathVariable String codigo) {
+        ReservaDTO reserva = reservaService.obterReservaPorCodigo(codigo);
         if (reserva != null) {
             return ResponseEntity.ok(reserva);
         } else {
