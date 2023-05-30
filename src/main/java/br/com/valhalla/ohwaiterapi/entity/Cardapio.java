@@ -31,6 +31,7 @@ public class Cardapio {
     private String descricao;
     private BigDecimal preco;
     private Integer quantidade = 1;
+    private Integer tempoDePreparo;
     @OneToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;

@@ -29,6 +29,8 @@ public class CardapioDTO {
     private CategoriaDTO categoria;
     @JsonProperty("preco")
     private BigDecimal preco;
+    @JsonProperty("tempoDePreparo")
+    private Integer tempoDePreparo;
     @JsonProperty("quantidade")
     private int quantidade;
 
@@ -39,6 +41,7 @@ public class CardapioDTO {
         dto.setNome(cardapio.getNome());
         dto.setUrlImage(cardapio.getUrlImage());
         dto.setDescricao(cardapio.getDescricao());
+        dto.setTempoDePreparo(cardapio.getTempoDePreparo());
         dto.setPreco(cardapio.getPreco());
         dto.setQuantidade(cardapio.getQuantidade());
         dto.setCategoria(CategoriaDTO.toDto(cardapio.getCategoria()));
@@ -51,6 +54,7 @@ public class CardapioDTO {
         cardapio.setNome(dto.getNome());
         cardapio.setUrlImage(dto.getUrlImage());
         cardapio.setDescricao(dto.getDescricao());
+        cardapio.setTempoDePreparo(dto.getTempoDePreparo());
         cardapio.setPreco(dto.getPreco());
         cardapio.setQuantidade(dto.getQuantidade());
         cardapio.setCategoria(CategoriaDTO.toEntity(dto.getCategoria()));
