@@ -75,10 +75,15 @@ public class ReservaService {
         Date dataHoje = Calendar.getInstance().getTime();
 
         // Converter a data para o formato adequado
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         String dataHojeString = formatter.format(dataHoje);
 
-        List<Reserva> listaReserva = reservaRepository.findByDataReservaContaining(dataHojeString);
+        List<String> statusList = new ArrayList<>();
+        statusList.add("RESERVADO");
+        statusList.add("COZINHANDO");
+
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+        List<Reserva> listaReserva = reservaRepository.findByDataReservaContainingAndStatusIn(dataHojeString.substring(0, 10), statusList,sort);
         List<ReservaDTO> dtos = new ArrayList<>();
 
         listaReserva.forEach(reserva -> {
