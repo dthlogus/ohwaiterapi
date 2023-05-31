@@ -2,7 +2,6 @@ package br.com.valhalla.ohwaiterapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,7 +29,8 @@ public class ReservaCardapio {
     @JsonBackReference
     private Reserva reserva;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "cardapio_id")
     private Cardapio cardapio;
 
     private int quantidade;

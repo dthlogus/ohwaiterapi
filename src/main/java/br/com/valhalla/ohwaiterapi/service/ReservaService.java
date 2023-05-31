@@ -6,10 +6,16 @@ import br.com.valhalla.ohwaiterapi.entity.ReservaCardapio;
 import br.com.valhalla.ohwaiterapi.repository.ReservaCardapioRepository;
 import br.com.valhalla.ohwaiterapi.repository.ReservaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -54,12 +60,40 @@ public class ReservaService {
         return ReservaDTO.toDTO(reserva, cardapios);
     }
 
-    public void cancelarReserva(Long id) {
-        Reserva reserva = reservaRepository.findById(id).orElse(null);
-        if (reserva == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva não encontrada");
-        }
-        reserva.setStatus("CANCELADO");
+    public List<ReservaDTO> obterTodos(){
+        List<ReservaDTO> dtos = new ArrayList<>();
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+        List<Reserva> listaReserva = reservaRepository.findAll(sort);
+        listaReserva.forEach(reserva -> {
+            List<ReservaCardapio> cardapios = reservaCardapioRepository.findByReserva(reserva);
+            dtos.add(ReservaDTO.toDTO(reserva, cardapios));
+        });
+        return dtos;
+    }
+
+    public List<ReservaDTO> buscarReservasDeHoje() {
+        Date dataHoje = Calendar.getInstance().getTime();
+
+        // Converter a data para o formato adequado
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        String dataHojeString = formatter.format(dataHoje);
+
+        List<Reserva> listaReserva = reservaRepository.findByDataReservaContaining(dataHojeString);
+        List<ReservaDTO> dtos = new ArrayList<>();
+
+        listaReserva.forEach(reserva -> {
+            List<ReservaCardapio> cardapios = reservaCardapioRepository.findByReserva(reserva);
+            dtos.add(ReservaDTO.toDTO(reserva, cardapios));
+        });
+
+        return dtos;
+    }
+
+    public void atualizarStatusReserva(Long id, String novoStatus) {
+        Reserva reserva = reservaRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva não encontrada"));
+
+        reserva.setStatus(novoStatus);
         reservaRepository.save(reserva);
     }
 }

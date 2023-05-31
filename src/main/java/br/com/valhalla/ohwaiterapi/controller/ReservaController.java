@@ -38,11 +38,11 @@ public class ReservaController {
         }
     }
 
-    @PutMapping("/{id}/cancelar")
-    public ResponseEntity<String> cancelarReserva(@PathVariable Long id) {
+    @PutMapping("/{id}/atualizar-status")
+    public ResponseEntity<String> atualizarStatusReserva(@PathVariable Long id, @RequestBody String novoStatus) {
         try {
-            reservaService.cancelarReserva(id);
-            return ResponseEntity.ok("Reserva cancelada com sucesso");
+            reservaService.atualizarStatusReserva(id, novoStatus);
+            return ResponseEntity.ok("Status da reserva atualizado com sucesso");
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
         }

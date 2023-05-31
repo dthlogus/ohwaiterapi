@@ -1,4 +1,7 @@
 spring:
+  mvc:
+    cors:
+      allowed-origins: "*"
   datasource:
     url: jdbc:postgresql://localhost:5433/ohwaiter
     username: ohwaiter
