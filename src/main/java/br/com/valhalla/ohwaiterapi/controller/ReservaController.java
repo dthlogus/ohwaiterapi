@@ -27,7 +27,7 @@ public class ReservaController {
     @PostMapping
     public ResponseEntity<Reserva> salvarReserva(@RequestBody ReservaDTO reservaDTO) {
         Reserva reserva = reservaService.criarReserva(reservaDTO);
-        return new ResponseEntity<>(reserva, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(reserva);
     }
 
     @GetMapping("/{codigo}")

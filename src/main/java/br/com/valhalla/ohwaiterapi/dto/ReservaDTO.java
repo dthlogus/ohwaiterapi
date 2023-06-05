@@ -22,6 +22,7 @@ public class ReservaDTO {
     private Integer tempoTotalPreparo;
     private BigDecimal precoTotal;
     private String nomeCliente;
+    private String email;
     private String cpf;
     private String dataReserva;
 
