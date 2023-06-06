@@ -12,4 +12,6 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
     Reserva findByCodigo(String codigo);
 
     List<Reserva> findByDataReservaContainingAndStatusIn(String dataReserva, List<String> statusList, Sort sort);
+
+    List<Reserva> findByCpf(String cpf, Sort sort);
 }

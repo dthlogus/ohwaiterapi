@@ -71,6 +71,17 @@ public class ReservaService {
         return dtos;
     }
 
+    public List<ReservaDTO> obterPorCpf(String cpf){
+        List<ReservaDTO> dtos = new ArrayList<>();
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+        List<Reserva> listaReserva = reservaRepository.findByCpf(cpf, sort);
+        listaReserva.forEach(reserva -> {
+            List<ReservaCardapio> cardapios = reservaCardapioRepository.findByReserva(reserva);
+            dtos.add(ReservaDTO.toDTO(reserva, cardapios));
+        });
+        return dtos;
+    }
+
     public List<ReservaDTO> buscarReservasDeHoje() {
         Date dataHoje = Calendar.getInstance().getTime();
 
